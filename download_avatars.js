@@ -19,7 +19,7 @@ function getRepoContributors(repoOwner, repoName, cb) {
     }
   };
 
-  request(options, function(err, res, body) {
+  request(options, (err, res, body) => {
     cb(err, body);
   });
 }
@@ -29,7 +29,7 @@ function getRepoContributors(repoOwner, repoName, cb) {
 
 
 function downloadImageByURL(url, filePath) {
-  console.log(filePath);
+
   const stream = fs.createWriteStream(filePath);
   request({url: url})
   .pipe(stream);
@@ -39,26 +39,24 @@ function downloadImageByURL(url, filePath) {
 
 
 
-getRepoContributors(owner, repo, function(err, result) {
+getRepoContributors(owner, repo, (err, result) =>{
 
   if (!owner || !repo) {
     console.log("ADD OWNER AND REPO NAME IN THE NODE ARUGUMENTS PAL !");
     return;
   }
-console.log(result);
-  console.log('test');
 
   const contributors = JSON.parse(result);
 
 
 
-  contributors.forEach(function(contributor) {
+  contributors.forEach((contributor) => {
 
 
     let url = contributor.avatar_url;
 
     let path = `./avatars/${contributor.login}.jpg`;
+  downloadImageByURL(url, path);
 
-    downloadImageByURL(url, path);
   });
 });
